@@ -118,7 +118,6 @@ in
           machines = [
             {
               name = "local";
-              local = true;
               inventory = [ "/absolute/path/to/inventory-provider" ];
               launch = [ "{}" ];
             }

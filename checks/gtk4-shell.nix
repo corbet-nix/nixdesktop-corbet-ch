@@ -84,15 +84,14 @@ let
     machines = [
       {
         name = "local";
-        local = true;
         inventory = [ "/run/current-system/sw/bin/inventory" "--json" ];
         launch = [ "{}" ];
       }
     ];
+    layout.equal_columns = false;
+    keys."Control+X" = null;
     theme = {
       width = 640;
-      show_machine_icons = false;
-      optional_accent = null;
     };
   };
 
