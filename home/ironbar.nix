@@ -27,6 +27,7 @@ let
   cfg = config.nixdesktop.ironbar;
 
   tomlFormat = pkgs.formats.toml { };
+  jsonFormat = pkgs.formats.json { };
 
   scriptFiles = lib.mapAttrs'
     (name: content: lib.nameValuePair "ironbar/scripts/${name}" {
@@ -108,6 +109,35 @@ in
       '';
     };
 
+    launcherSettings = lib.mkOption {
+      type = lib.types.nullOr jsonFormat.type;
+      default = null;
+      example = lib.literalExpression ''
+        {
+          folders = [ "Code" "Web" "Other" ];
+          machines = [
+            {
+              name = "local";
+              local = true;
+              inventory = [ "/absolute/path/to/inventory-provider" ];
+              launch = [ "{}" ];
+            }
+          ];
+        }
+      '';
+      description = ''
+        Optional settings for an Ironbar-compatible panel's embedded matrix launcher, written as
+        JSON to ~/.config/cbar/launcher.json. The value is deliberately an arbitrary JSON object:
+        the launcher owns and validates its schema, so this module does not duplicate a moving
+        Rust schema in Nix.
+
+        This is separate from Ironbar's TOML because the bar and launcher have independent parser
+        and reload fault domains: an absent or invalid launcher configuration must not invalidate
+        an otherwise valid bar configuration. Leave this at null (the default) to write no
+        launcher file. This option installs no package and creates no service.
+      '';
+    };
+
     configDir = lib.mkOption {
       type = lib.types.str;
       readOnly = true;
@@ -165,6 +195,9 @@ in
       "ironbar/style.css".text = cfg.style;
     }
     // scriptFiles
-    // assetFiles;
+    // assetFiles
+    // lib.optionalAttrs (cfg.launcherSettings != null) {
+      "cbar/launcher.json".text = builtins.toJSON cfg.launcherSettings;
+    };
   };
 }

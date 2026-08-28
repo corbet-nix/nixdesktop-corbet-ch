@@ -21,6 +21,9 @@
 #   · THE EMPTY-STYLESHEET CASE. Both modules deliberately write NO file when `style` is empty, so
 #     the program falls back to its own default rather than rendering against a blank sheet. An
 #     `lib.optionalAttrs` is exactly the kind of line that gets "simplified" into always writing.
+#   · THE OPTIONAL LAUNCHER FILE. Existing consumers must get byte-for-byte the same generated
+#     files when they do not opt in, while an opted-in launcher gets JSON in its own fault domain
+#     without pulling a package or service into this deliberately package-less module.
 { pkgs, lib ? pkgs.lib }:
 let
   support = import ./support.nix { inherit pkgs lib; };
@@ -68,11 +71,50 @@ let
     nixdesktop.ironbar = { enable = true; settings.icon_theme = "Adwaita"; };
   };
 
+  ironbarExplicitNullLauncher = evalWith ../home/ironbar.nix {
+    nixdesktop.ironbar = {
+      enable = true;
+      settings.icon_theme = "Adwaita";
+      launcherSettings = null;
+    };
+  };
+
+  launcherSettings = {
+    folders = [ "Code" "Other" ];
+    machines = [
+      {
+        name = "local";
+        local = true;
+        inventory = [ "/run/current-system/sw/bin/inventory" "--json" ];
+        launch = [ "{}" ];
+      }
+    ];
+    theme = {
+      width = 640;
+      show_machine_icons = false;
+      optional_accent = null;
+    };
+  };
+
+  ironbarWithLauncher = evalWith ../home/ironbar.nix {
+    nixdesktop.ironbar = {
+      enable = true;
+      settings.icon_theme = "Adwaita";
+      inherit launcherSettings;
+    };
+  };
+
   ironbarOff = evalWith ../home/ironbar.nix {
-    nixdesktop.ironbar = { enable = false; style = "ignored"; };
+    nixdesktop.ironbar = {
+      enable = false;
+      style = "ignored";
+      inherit launcherSettings;
+    };
   };
 
   ironFiles = ironbarFull.xdg.configFile;
+  launcherRoundTrip = builtins.fromJSON
+    ironbarWithLauncher.xdg.configFile."cbar/launcher.json".text;
 
   # ── swaync ───────────────────────────────────────────────────────────────────────────────────
   swayncFull = evalWith ../home/swaync.nix {
@@ -140,8 +182,24 @@ let
       !(ironbarNoStyle.xdg.configFile ? "ironbar/style.css");
     "...but the config itself is still written" =
       ironbarNoStyle.xdg.configFile ? "ironbar/config.toml";
-    "disabled ironbar writes nothing, even with a stylesheet set" =
+    "default launcher settings write no file, preserving the existing output exactly" =
+      ironbarNoStyle.xdg.configFile == ironbarExplicitNullLauncher.xdg.configFile
+      && lib.attrNames ironbarNoStyle.xdg.configFile == [ "ironbar/config.toml" ];
+    "disabled ironbar writes nothing, even with a stylesheet and launcher settings set" =
       ironbarOff.xdg.configFile == { };
+
+    # ── embedded launcher: separate JSON fault domain, and nothing else ─────────────────────
+    "launcher settings are written to the runtime's exact XDG-relative path" =
+      ironbarWithLauncher.xdg.configFile ? "cbar/launcher.json";
+    "launcher settings round-trip as arbitrary JSON without a duplicated Nix schema" =
+      launcherRoundTrip == launcherSettings;
+    "opting into launcher settings adds only its JSON file beside the unchanged bar config" =
+      lib.attrNames ironbarWithLauncher.xdg.configFile
+      == [ "cbar/launcher.json" "ironbar/config.toml" ];
+    "launcher settings do not install a package" =
+      ironbarWithLauncher.home.packages == [ ];
+    "launcher settings do not create a service" =
+      ironbarWithLauncher.systemd.user == { };
 
     # ── ironbar: the published paths ──────────────────────────────────────────────────────────
     "configDir is derived from xdg.configHome, not hardcoded" =

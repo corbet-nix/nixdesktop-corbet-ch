@@ -99,7 +99,7 @@ that works with exactly one compositor.
 | `homeManagerModules.session` | home-manager | turns bar/notifier/osd/patchbay/idle/polkit/keyring into systemd user services |
 | `homeManagerModules.waybar` | home-manager | bar config + style (GTK3) |
 | `homeManagerModules.mako` | home-manager | notification daemon config |
-| `homeManagerModules.ironbar` | home-manager | bar config + style + helper scripts (GTK4 — renders at a fractional output's real scale, where GTK3 is downsampled from the next integer one) |
+| `homeManagerModules.ironbar` | home-manager | bar config + style + helper scripts, plus optional JSON settings for an embedded matrix launcher (GTK4 — renders at a fractional output's real scale, where GTK3 is downsampled from the next integer one) |
 | `homeManagerModules.swaync` | home-manager | notification daemon + control-centre config and style; the only one of the four that publishes an unread count a bar can read |
 | `homeManagerModules.swaylock` | home-manager | lock screen appearance |
 | `homeManagerModules.nwgDock` | home-manager | dock: CSS, replacement icons, and the rendered command line (nwg-dock configures most of itself through argv, not a file) |
@@ -113,6 +113,16 @@ There is no `homeManagerModules.default`. That framing no longer holds: every
 module above is an independent, separately opt-in component, and none of them is the obvious
 thing every consumer wants — picking one anyway would misrepresent it as this repo's primary
 artifact. Import the ones you actually want by name.
+
+### Embedded launcher configuration
+
+`nixdesktop.ironbar.launcherSettings` optionally writes arbitrary JSON to
+`$XDG_CONFIG_HOME/cbar/launcher.json`, the current runtime contract for an Ironbar-compatible
+panel with the matrix launcher embedded. It is intentionally separate from Ironbar's TOML: the
+bar and launcher have independent schemas and failure boundaries, so a missing or invalid launcher
+file cannot invalidate the bar configuration. The default is `null`, which writes no launcher
+file and leaves existing consumers' generated output unchanged. The option only generates config;
+it neither installs a package nor creates a service.
 
 ## The startup contract
 
