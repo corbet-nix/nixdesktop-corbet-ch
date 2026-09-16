@@ -200,7 +200,7 @@ let
   # already unlocked it.
   #
   # `-f` has no universal process contract, but it IS `--daemonize` for the default command,
-  # swaylock 1.8.6 (`-F`, not `-f`, is `--show-failed-attempts`), and for nixlock >= 0.1.3. Their
+  # swaylock 1.8.6 (`-F`, not `-f`, is `--show-failed-attempts`), and for clck. Their
   # launcher's successful EXIT is the readiness protocol: its parent waits until the compositor
   # confirms the child holds the session lock. Process presence cannot substitute for that
   # handshake because the not-yet-ready parent has the same executable and display as the eventual
@@ -214,11 +214,10 @@ let
   # bare executable containing `[`, `.`, or `*`. The environment check prevents another Wayland
   # display owned by the same user from suppressing this display's gate. Every runtime tool is an
   # absolute store path, so the wrapper does not depend on a foreign user manager's ambient PATH.
-  # clck transition: the product ships a `nixlock` compat symlink until the binary-rename deploy
-  # step lands. Exec via that symlink keeps comm/argv[0] as `nixlock` but resolves exe to `clck`,
-  # so while either name is configured the gate must accept both exe basenames (measured 2026-09-16:
-  # `/usr/bin/nixlock -f` with exe `/usr/bin/clck` failed the exact match, the oneshot failed, and
-  # systemd reaped the just-ready daemon leaving a stale socket and a dark kiosk).
+  # Single-name rule: the locker runs as `clck` (exe, comm, argv[0] all agree --
+  # the old `nixlock` compat symlink is gone), so one exact basename match is
+  # both necessary and sufficient. Never re-add a multi-name branch here: a
+  # gate that accepts names nobody configured is coverage that cannot fail.
   lockAtStartScript =
     let
       lockerName = lib.escapeShellArg lockBin;
@@ -234,10 +233,7 @@ let
       locker_is_running() {
         for candidate_pid in $(${pgrep} -u "$current_uid" -f .); do
           candidate_exe="$(${readlink} "/proc/$candidate_pid/exe" 2>/dev/null || true)"
-          candidate_base="''${candidate_exe##*/}"
-          if [ "$candidate_base" = ${lockerName} ]; then :;
-          elif { [ ${lockerName} = 'nixlock' ] || [ ${lockerName} = 'clck' ]; } && { [ "$candidate_base" = 'nixlock' ] || [ "$candidate_base" = 'clck' ]; }; then :;
-          else continue; fi
+          [ "''${candidate_exe##*/}" = ${lockerName} ] || continue
           if ${tr} '\0' '\n' < "/proc/$candidate_pid/environ" 2>/dev/null \
             | ${grep} -Fqx -- "WAYLAND_DISPLAY=$WAYLAND_DISPLAY"; then
             return 0
@@ -1660,7 +1656,7 @@ in
           acquired the compositor's session lock, and exits nonzero on failure. The wrapper waits
           for that parent instead of treating its mere presence as readiness, then verifies the
           child. This is the default because it is the `-f`/`--daemonize` contract of both swaylock
-          1.8.6 (`-F`/`--show-failed-attempts` is a different flag) and nixlock >= 0.1.3. Setting
+          1.8.6 (`-F`/`--show-failed-attempts` is a different flag) and clck. Setting
           this mode for a command that merely forks without a post-lock readiness handshake would
           make the gate dishonest.
 
