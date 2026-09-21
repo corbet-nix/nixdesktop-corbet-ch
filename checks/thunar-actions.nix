@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: MIT OR Apache-2.0
 # Evaluates home/thunar.nix for real and asserts the uca.xml it renders. Same reasoning as every
 # sibling check in this directory: `nix flake check` does not evaluate `homeManagerModules`, so
 # without this file nothing about the generated document would be proven at all.

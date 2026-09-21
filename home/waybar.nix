@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: MIT OR Apache-2.0
 # home/waybar.nix — declarative waybar config (home-manager), sibling to the other home/*.nix
 # modules in this repo. Compositor-neutral: waybar itself doesn't care which compositor is
 # feeding it, so nothing here names one. (The "niri/workspaces" module name that shows up in the

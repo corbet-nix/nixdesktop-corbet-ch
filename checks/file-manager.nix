@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: MIT OR Apache-2.0
 # Evaluates modules/nixos-backend.nix + profiles/desktop.nix as a REAL NixOS system and proves the
 # one thing about the file-manager role that a package list can never prove: that the role is wired
 # through the actual NixOS options and not merely dropped into `environment.systemPackages`.

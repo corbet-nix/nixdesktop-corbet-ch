@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: MIT OR Apache-2.0
 # The five roles this profile fills with PACKAGES AND NOTHING ELSE — `syntheticTyping`,
 # `iconThemes`, `inputAutomation`, `brightness` and `wallpapers` — proven against the real NixOS
 # backend, in both directions.

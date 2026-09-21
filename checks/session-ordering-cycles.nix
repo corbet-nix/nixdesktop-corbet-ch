@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: MIT OR Apache-2.0
 # checks/session-ordering-cycles.nix — proves home/session.nix's ordering-cycle guard, and the one
 # component in this repo that used to trip it.
 #

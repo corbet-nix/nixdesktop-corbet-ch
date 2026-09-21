@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: MIT OR Apache-2.0
 # Evaluates modules/session.nix for real and proves the two things it cannot be allowed to get
 # wrong: the device sets it derives from nixhost's already-declared claim, and the four assertions
 # that stand between a declaration and a session that fails at device-open with an error naming

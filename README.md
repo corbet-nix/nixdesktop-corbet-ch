@@ -203,9 +203,9 @@ nixciri, nixscroll, or a compositor that doesn't
 exist yet. The option surface will keep moving as the desktop does; there are no compatibility
 shims at this stage.
 
-[nixarch]: https://github.com/julian-corbet/nixarch-corbet-ch
-[nixciri]: https://github.com/julian-corbet/nixciri-corbet-ch
+[nixarch]: https://github.com/corbet-nix/nixarch-corbet-ch
+[nixciri]: https://github.com/corbet-nix/nixciri-corbet-ch
 
-## License
+## Licence
 
-MIT
+Outbound licence is `MIT OR Apache-2.0`. See `LICENSE-MIT` and `LICENSE-APACHE`; every source file carries `SPDX-License-Identifier: MIT OR Apache-2.0`.

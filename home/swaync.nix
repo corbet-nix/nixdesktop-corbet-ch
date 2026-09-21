@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: MIT OR Apache-2.0
 # home/swaync.nix — declarative SwayNotificationCenter config, sibling to home/mako.nix.
 # Compositor-neutral, like every other home/*.nix here.
 #

@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: MIT OR Apache-2.0
 # Evaluates modules/nixos-backend.nix + profiles/desktop.nix as a REAL NixOS system and proves the
 # one thing about the `input` role that a package list can never prove: that filling it actually
 # turns the remapping daemon ON, and that leaving it unfilled turns nothing on.

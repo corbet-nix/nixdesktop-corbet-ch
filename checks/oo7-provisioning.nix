@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: MIT OR Apache-2.0
 # checks/oo7-provisioning.nix — proves the SYSTEM-level half of the oo7 mechanism
 # (`modules/oo7-credential.nix`, `modules/oo7-keyring-bootstrap.nix`), the same way
 # checks/keyring.nix proves the home-manager half (`home/session.nix`'s `keyring.oo7.credential.

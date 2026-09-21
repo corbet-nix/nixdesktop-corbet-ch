@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: MIT OR Apache-2.0
 # home/foot.nix — declarative foot config (~/.config/foot/foot.ini), sibling to the other
 # home/*.nix modules in this repo. Compositor-neutral: foot is a Wayland terminal and does not
 # care which compositor is feeding it, so nothing here names one.

@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: MIT OR Apache-2.0
 # Throwaway eval smoke test -- NOT part of the module surface. Confirms modules/nixos-backend.nix
 # evaluates alongside the policy profile and that the DEFAULT `nixdesktop.want` (the same defaults
 # eval-smoke-test.nix checks at the policy layer) actually resolves to real nixpkgs packages, not

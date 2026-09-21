@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: MIT OR Apache-2.0
 # modules/oo7-keyring-bootstrap.nix — closes the SECOND gap `home/session.nix`'s own `keyring.oo7`
 # option group cannot: even with `modules/oo7-credential.nix` provisioning a readable credential,
 # oo7-daemon 0.6.0 will not conjure a brand-new encrypted keyring from it on its own (see below).

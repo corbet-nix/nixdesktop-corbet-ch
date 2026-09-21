@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: MIT OR Apache-2.0
 # modules/session.nix — a desktop session as an INSTANCE: this user, this compositor, delivered
 # this way, on this seat, with this device claim and this output layout.
 #

@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: MIT OR Apache-2.0
 # lib/nixos-roles.nix — the NixOS resolution tables for nixdesktop's roles. Pure data (a function
 # of `pkgs`, plus an optional consumer-supplied compositor table — see `compositors` below), no
 # module system: imported by modules/nixos-backend.nix (the only consumer today) and

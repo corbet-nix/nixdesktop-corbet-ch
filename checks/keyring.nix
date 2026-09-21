@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: MIT OR Apache-2.0
 # Evaluates home/session.nix for real and asserts the keyring PROVIDER assembly it owns -- the
 # provider choice (`oo7.enable`/`gnomeKeyring.enable`), the exactly-one-provider assertion, and the
 # credential-based unlock wiring (`LoadCredentialEncrypted=`, populated by `oo7.credential.*`).

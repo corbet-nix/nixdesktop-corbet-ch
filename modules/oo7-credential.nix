@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: MIT OR Apache-2.0
 # modules/oo7-credential.nix — provisions the systemd credential oo7-daemon needs to unlock a
 # Secret Service keyring with NO typed password, exactly once, idempotently, at the SYSTEM level
 # (a root-run oneshot) — the first of the two mechanisms `home/session.nix`'s own `keyring.oo7`

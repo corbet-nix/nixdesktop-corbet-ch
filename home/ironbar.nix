@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: MIT OR Apache-2.0
 # home/ironbar.nix — declarative ironbar config (home-manager), sibling to home/waybar.nix.
 # Compositor-neutral, like every other home/*.nix here: ironbar talks to whichever compositor is
 # running (it has sway, Hyprland and niri backends of its own), so nothing in this file names one.

@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: MIT OR Apache-2.0
 # Throwaway eval smoke test -- NOT part of the module surface. Confirms the policy profile
 # evaluates and that `nixdesktop.want` actually resolves to the role set a backend would consume,
 # before any of it is published. Safe to delete; nothing imports this file.

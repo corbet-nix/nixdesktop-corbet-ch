@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: MIT OR Apache-2.0
 # home/session.nix — turns desktop session components (a bar, a notifier, watchers, an idle
 # daemon, a polkit agent, a keyring) into systemd user services, compositor-neutral itself and
 # sibling to the other home/*.nix modules in this repo.

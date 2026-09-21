@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: MIT OR Apache-2.0
 # profiles/desktop.nix — the POLICY layer of a desktop session: which roles the session wants
 # filled, and by which implementation. Compositor-neutral: `compositor` is a free-form host fact,
 # not an installable role. The matching integration product owns the compositor runtime and

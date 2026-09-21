@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: MIT OR Apache-2.0
 # Evaluates home/session.nix for real and asserts the `patchbay` component -- the tray/patchbay
 # session component (see that option group's own header comment in home/session.nix for the full
 # design account: why it is ONE unit and not a pair like `cliphist-text`/`cliphist-image`, why its

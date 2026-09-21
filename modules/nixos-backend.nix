@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: MIT OR Apache-2.0
 # modules/nixos-backend.nix — the NixOS platform backend for nixdesktop.
 #
 # nixdesktop declares WHAT a desktop session needs (roles: a file manager, a polkit agent, a bar).

@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: MIT OR Apache-2.0
 # Evaluates home/ironbar.nix and home/swaync.nix for real, plus the one piece of home/session.nix
 # plumbing they need (`unsetEnvironment`).
 #

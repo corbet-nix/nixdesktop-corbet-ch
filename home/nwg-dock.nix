@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: MIT OR Apache-2.0
 # home/nwg-dock.nix — declarative nwg-dock config.
 #
 # nwg-dock is configured from three places at once, and only ONE of them is a config file. That is

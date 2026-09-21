@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: MIT OR Apache-2.0
 # home/swaylock.nix — declarative swaylock (screen locker) config, sibling to home/mako.nix.
 # Same attrset-with-nullable-values mechanism: swaylock's config mixes bare boolean flags
 # (e.g. `indicator`, `clock`) with `key=value` lines, so null renders as a bare flag.

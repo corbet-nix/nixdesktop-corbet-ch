@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: MIT OR Apache-2.0
 # modules/launcher.nix — the piece that actually STARTS a desktop session: turns a
 # `nixdesktop.sessions.<name>` instance (modules/session.nix — an INSTANCE, not yet a running
 # thing) into a real systemd unit, seated or headless.

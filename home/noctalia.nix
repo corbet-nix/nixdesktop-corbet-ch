@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: MIT OR Apache-2.0
 # home/noctalia.nix — glue over noctalia-dev/noctalia's own upstream home-manager module
 # (imported alongside it by flake.nix's homeManagerModules.noctalia). The upstream module already
 # handles package selection, settings.toml/palette generation, and an optional systemd unit --

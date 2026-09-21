@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: MIT OR Apache-2.0
 # checks/theming-environment.nix — proves modules/theming-environment.nix (the system-manager half
 # of the QT_QPA_PLATFORMTHEME fix; see that file's own header for the full, measured account of why
 # it cannot share `environment.sessionVariables` with the NixOS half in modules/nixos-backend.nix)

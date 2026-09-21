@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: MIT OR Apache-2.0
 # Evaluates home/foot.nix for real and asserts the FILE it renders, not the options a consumer
 # handed it. Same reasoning as every sibling check in this directory: `nix flake check` does not
 # evaluate `homeManagerModules` -- it lists them as unchecked and moves on -- so without this file

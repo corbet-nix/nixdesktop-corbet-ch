@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: MIT OR Apache-2.0
 {
   description = "nixdesktop — the compositor-neutral desktop policy and shared-component layer for a declarative, CPU-rendered Wayland desktop: its session instances and launcher, plus home-manager modules for the components around whichever compositor you run (the monitor registry and output layouts moved to the sibling repo nixdisplay)";
 
@@ -47,7 +48,7 @@
   # needs to know nixhost exists. Same pattern, same reasoning, as nixlxc's own single nixhost
   # input.
   inputs.nixhost = {
-    url = "git+https://github.com/julian-corbet/nixhost-corbet-ch";
+    url = "git+https://github.com/corbet-nix/nixhost-corbet-ch";
     inputs.nixpkgs.follows = "nixpkgs";
   };
 
@@ -119,7 +120,7 @@
 
       # ── IDENTITY AND GEOMETRY ─────────────────────────────────────────────────────────────
       # The monitor registry and output layouts USED to live here; they moved to the published
-      # sibling repo nixdisplay (github.com/julian-corbet/nixdisplay-corbet-ch), which now owns the
+      # sibling repo nixdisplay (github.com/corbet-nix/nixdisplay-corbet-ch), which now owns the
       # `nixdisplay.{monitors,layouts,dynamicOutputs}` namespace and their checks. modules/session.
       # nix reads `nixdisplay.layouts` defensively through `lib.probeFact` (never an input on that
       # domain), so a host that composes nixdesktop without nixdisplay evaluates fine and simply
@@ -255,7 +256,7 @@
         # is why real configs end up writing `sleep 1 && waybar`.
         session = ./home/session.nix;
 
-        # kanshi moved to nixdisplay (github.com/julian-corbet/nixdisplay-corbet-ch), alongside the
+        # kanshi moved to nixdisplay (github.com/corbet-nix/nixdisplay-corbet-ch), alongside the
         # `nixdisplay.{monitors,layouts,dynamicOutputs}` tables it generates its profiles from.
 
         waybar = ./home/waybar.nix;

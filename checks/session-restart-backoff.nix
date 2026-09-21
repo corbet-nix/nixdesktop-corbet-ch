@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: MIT OR Apache-2.0
 # Evaluates home/session.nix for real and asserts the RESTART BACKOFF every session component
 # renders -- `RestartSec=` plus the `StartLimitIntervalSec=`/`StartLimitBurst=` pair. See that
 # file's own header ("⚠ THE READINESS GUARANTEE IS CONDITIONAL") for the measured session this

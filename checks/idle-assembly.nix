@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: MIT OR Apache-2.0
 # Evaluates home/session.nix for real and asserts the swayidle assembly it owns.
 #
 # WHY THIS FILE EXISTS AT ALL: `nix flake check` does not evaluate `homeManagerModules`. It lists

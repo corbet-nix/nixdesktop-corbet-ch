@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: MIT OR Apache-2.0
 # modules/theming-environment.nix — the system-manager counterpart to the `QT_QPA_PLATFORMTHEME`
 # wiring `modules/nixos-backend.nix` adds beside its `programs.thunar`/`xdg.portal` writes: the
 # `theming` role installs `qt6ct` (nixarch's own resolution table, `nixarch.desktopBackend`'s Arch

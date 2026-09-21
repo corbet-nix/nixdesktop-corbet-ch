@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: MIT OR Apache-2.0
 # home/eww.nix — declarative eww (ElKowar's Wacky Widgets) bar config, sibling to home/waybar.nix.
 # LEAN BY DESIGN: eww's config isn't structured data like waybar's JSON, it's a full DSL (yuck for
 # widgets/windows, SCSS for styling) plus arbitrary helper scripts referenced from that DSL --

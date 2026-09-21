@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: MIT OR Apache-2.0
 # home/mako.nix — declarative mako (notification daemon) config, sibling to the other
 # home/*.nix modules in this repo. Compositor-neutral: mako runs the same regardless of which
 # compositor is in use. LEAN BY DESIGN: mechanism only, no default theme/settings -- mako's config

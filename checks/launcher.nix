@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: MIT OR Apache-2.0
 # Evaluates modules/launcher.nix for real, wired to the real modules/session.nix exactly as a
 # consumer composes both (mirrors checks/session-devices.nix's own nixhost fixture), and proves
 # the shapes that matter most: a seated session is unrepresentable as a `--user` unit and a

@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: MIT OR Apache-2.0
 # home/startup.nix — the one thing nixdesktop owns across every compositor: a place to say
 # "run this at session start" without naming a compositor.
 #

@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: MIT OR Apache-2.0
 # modules/desktops.nix — the FLEET-WIDE desktop registry: every machine in an estate that runs a
 # graphical session, and the identity colour that says which one you are looking at.
 #

@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: MIT OR Apache-2.0
 # home/thunar.nix — declarative Thunar custom actions (~/.config/Thunar/uca.xml), sibling to the
 # other home/*.nix modules in this repo. Installs nothing: Thunar itself comes from the
 # `fileManager` role, through whichever platform backend a consumer paired with this repo.
