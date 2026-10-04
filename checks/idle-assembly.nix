@@ -219,7 +219,7 @@ then
   else
     pkgs.runCommand "nixdesktop-lock-at-start-idempotence"
     {
-      nativeBuildInputs = [ pkgs.stdenv.cc pkgs.coreutils ];
+      nativeBuildInputs = [ pkgs.stdenv.cc pkgs.coreutils pkgs.makeWrapper ];
       foregroundLockCommand = atStartLongLocker."lock-at-start".command;
       daemonizingLockCommand = atStartDaemonizingLongLocker."lock-at-start".command;
       renderedUnit = realRenderedAtStart;
@@ -305,6 +305,9 @@ then
       EOF
       cp "$TMPDIR/locker-elf" "$TMPDIR/$longLockerName"
       cp "$TMPDIR/locker-elf" "$TMPDIR/$nearRegexMatchName"
+      mkdir "$TMPDIR/wrapped"
+      cp "$TMPDIR/locker-elf" "$TMPDIR/wrapped/$longLockerName"
+      wrapProgram "$TMPDIR/wrapped/$longLockerName" --set NIXDESKTOP_TEST_WRAPPED 1
 
       holder_pid=""
       spawned_pids=""
@@ -421,6 +424,43 @@ then
       kill -0 "$other_display_pid"
       spawned_pids="$spawned_pids $other_display_pid"
 
+      kill "$holder_pid"
+      wait "$holder_pid" 2>/dev/null || true
+      holder_pid=""
+
+      # A real Nix wrapper leaves /proc/PID/exe pointing at .<command>-wrapped.
+      # An existing locker on this display must prevent a duplicate launch,
+      # including when the configured name contains shell-pattern characters.
+      wrapped_marker="$TMPDIR/wrapped-same-display"
+      WAYLAND_DISPLAY=wayland-wrapped "$TMPDIR/wrapped/$longLockerName" --hold &
+      holder_pid=$!
+      holder_ready=false
+      for _attempt in $(seq 1 50); do
+        holder_exe="$(${lib.getExe' pkgs.coreutils "readlink"} "/proc/$holder_pid/exe" 2>/dev/null || true)"
+        if [ "''${holder_exe##*/}" = ".$longLockerName-wrapped" ]; then
+          holder_ready=true
+          break
+        fi
+        sleep 0.02
+      done
+      test "$holder_ready" = true
+      PATH="$TMPDIR/wrapped:$PATH" WAYLAND_DISPLAY=wayland-wrapped SPAWN_MARKER="$wrapped_marker" \
+        /bin/sh -c "$daemonizingLockCommand"
+      test ! -e "$wrapped_marker"
+      kill -0 "$holder_pid"
+
+      # The wrapped process on another display must not bypass this display's
+      # handshake. Its newly launched, wrapped child must also be recognized.
+      wrapped_other_marker="$TMPDIR/wrapped-other-display"
+      wrapped_ready_marker="$TMPDIR/wrapped-ready"
+      PATH="$TMPDIR/wrapped:$PATH" WAYLAND_DISPLAY=wayland-wrapped-other \
+        SPAWN_MARKER="$wrapped_other_marker" READY_MARKER="$wrapped_ready_marker" \
+        LOCKER_MODE=daemonize /bin/sh -c "$daemonizingLockCommand"
+      test -s "$wrapped_ready_marker"
+      wait_for_marker "$wrapped_other_marker"
+      wrapped_other_pid=$(cat "$wrapped_other_marker")
+      kill -0 "$wrapped_other_pid"
+      spawned_pids="$spawned_pids $wrapped_other_pid"
       kill "$holder_pid"
       wait "$holder_pid" 2>/dev/null || true
       holder_pid=""

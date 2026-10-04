@@ -215,13 +215,13 @@ let
   # bare executable containing `[`, `.`, or `*`. The environment check prevents another Wayland
   # display owned by the same user from suppressing this display's gate. Every runtime tool is an
   # absolute store path, so the wrapper does not depend on a foreign user manager's ambient PATH.
-  # Single-name rule: the locker runs as `clck` (exe, comm, argv[0] all agree --
-  # the old `nixlock` compat symlink is gone), so one exact basename match is
-  # both necessary and sufficient. Never re-add a multi-name branch here: a
-  # gate that accepts names nobody configured is coverage that cannot fail.
+  # Nix's wrapProgram keeps the command name but moves the ELF to .<name>-wrapped.
+  # /proc/<pid>/exe identifies that ELF, not the wrapper. Accept this exact derived
+  # name too, without adding aliases for unrelated or retired locker commands.
   lockAtStartScript =
     let
       lockerName = lib.escapeShellArg lockBin;
+      wrappedLockerName = lib.escapeShellArg ".${lockBin}-wrapped";
       id = lib.getExe' pkgs.coreutils "id";
       pgrep = lib.getExe' pkgs.procps "pgrep";
       readlink = lib.getExe' pkgs.coreutils "readlink";
@@ -234,7 +234,11 @@ let
       locker_is_running() {
         for candidate_pid in $(${pgrep} -u "$current_uid" -f .); do
           candidate_exe="$(${readlink} "/proc/$candidate_pid/exe" 2>/dev/null || true)"
-          [ "''${candidate_exe##*/}" = ${lockerName} ] || continue
+          candidate_name="''${candidate_exe##*/}"
+          if [ "$candidate_name" != ${lockerName} ] \
+            && [ "$candidate_name" != ${wrappedLockerName} ]; then
+            continue
+          fi
           if ${tr} '\0' '\n' < "/proc/$candidate_pid/environ" 2>/dev/null \
             | ${grep} -Fqx -- "WAYLAND_DISPLAY=$WAYLAND_DISPLAY"; then
             return 0
